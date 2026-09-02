@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::create(config('secure-impersonation.table', 'secure_impersonations'), function (Blueprint $table): void {
+            $table->uuid('id')->primary();
+            $table->string('impersonator_type');
+            $table->string('impersonator_id');
+            $table->string('impersonated_type');
+            $table->string('impersonated_id');
+            $table->string('guard_name', 64);
+            $table->json('context')->nullable();
+            $table->text('reason');
+            $table->timestamp('started_at');
+            $table->timestamp('expires_at')->index();
+            $table->timestamp('ended_at')->nullable()->index();
+            $table->string('ended_reason', 64)->nullable();
+            $table->string('started_ip', 45)->nullable();
+            $table->string('ended_ip', 45)->nullable();
+            $table->string('user_agent', 500)->nullable();
+            $table->timestamps();
+
+            $table->index(['impersonator_type', 'impersonator_id', 'started_at'], 'secure_impersonator_lookup');
+            $table->index(['impersonated_type', 'impersonated_id', 'started_at'], 'secure_impersonated_lookup');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists(config('secure-impersonation.table', 'secure_impersonations'));
+    }
+};

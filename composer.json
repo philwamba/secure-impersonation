@@ -1,0 +1,60 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "philwamba/secure-impersonation",
+    "description": "Secure, expiring, auditable, and read-only user impersonation for Laravel applications.",
+    "keywords": ["laravel", "impersonation", "security", "audit"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Phil Wamba",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "illuminate/auth": "^12.0 || ^13.0",
+        "illuminate/database": "^12.0 || ^13.0",
+        "illuminate/http": "^12.0 || ^13.0",
+        "illuminate/session": "^12.0 || ^13.0",
+        "illuminate/support": "^12.0 || ^13.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.27",
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "phpunit/phpunit": "^11.5 || ^12.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Philwamba\\SecureImpersonation\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Philwamba\\SecureImpersonation\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "format": "pint",
+        "format:check": "pint --test",
+        "quality": [
+            "@format:check",
+            "@test"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Philwamba\\SecureImpersonation\\SecureImpersonationServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        },
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
